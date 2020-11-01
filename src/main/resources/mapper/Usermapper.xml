@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxs.dao.UserDao">
+    
+    <select id="findAll" resultMap="userMap">
+        select * from tb_user;
+    </select>
+    <resultMap id="userMap" type="com.xxs.domain.User">
+<!--        下面部分可用可不用-->
+<!--        <id property="id" column="id"></id>-->
+<!--        <result property="username" column="username"></result>-->
+<!--        <result property="password" column="password"></result>-->
+<!--        <result property="email" column="email"></result>-->
+<!--        <result property="birthday" column="birthday"></result>-->
+    </resultMap>
+
+<!--    增删改-->
+    <insert id="insert" parameterType="com.xxs.domain.User">
+        insert into tb_user (username, password, email, birthday)
+        values (#{username},#{password},#{email},#{birthday})
+    </insert>
+
+    <update id="update">
+        update tb_user set username =#{username} where id =#{id}
+    </update>
+
+    <delete id="delete">
+        delete from tb_user where id=#{id}
+    </delete>
+
+<!--    查查查查-->
+    <select id="findById" resultType="com.xxs.domain.User">
+        select * from tb_user where id=#{id}
+    </select>
+
+    <select id="findByUserNameAndPWD" resultType="com.xxs.domain.User">
+-- 多项查询用arg0(..)或=param(1..)
+        select * from tb_user where username=#{username} AND password=#{password}
+    </select>
+    <!--第一种模糊查询-->
+<!--    select * from tb_user where username like #{username}-->
+    <!--第二种模糊查询-->
+<!--    select * from tb_user where username like "%"#{username}"%"-->
+    <!--第三种模糊查询-->
+<!--    select * from tb_user where username like concat("%",#{username},"%")-->
+    <select id="findNameLike" resultType="com.xxs.domain.User">
+
+    select * from tb_user where username like concat("%",#{username},"%")
+
+    </select>
+</mapper>
